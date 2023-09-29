@@ -1,0 +1,50 @@
+version: '3'
+services:
+  # PHP 8.1 Service
+  php:
+    image: php:8.1-fpm
+    container_name: php
+    build:
+      context: ./php8.1
+      dockerfile: Dockerfile
+    volumes:
+      - ../src:/var/www/html
+    networks:
+      - app-network
+
+  # MySQL Service
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # Nginx Service
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ../src:/var/www/html
+    depends_on:
+      - php
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
