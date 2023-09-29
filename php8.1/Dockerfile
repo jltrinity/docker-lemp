@@ -1,13 +1,15 @@
 FROM php:8.1-fpm
 
-# Install any PHP extensions you need here
-# For example:
-RUN docker-php-ext-install pdo pdo_mysql
-
 WORKDIR /var/www/html
 
-# Copy your application code into the container
-#COPY . .
+RUN apt update && apt-get update \
+    && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev zip libxslt1-dev\
+    && docker-php-ext-install intl \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install xsl
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 EXPOSE 9000
 
