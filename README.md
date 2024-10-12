@@ -1,7 +1,7 @@
 # docker-lemp
 
 # Description
-Docker container with PHP 8.1, NGINX and MySQL.
+Docker container with PHP 8.2, NGINX and MySQL.
 
 # Prerequisites
 * If you are using Windows, you will need WSL2, Ubuntu and Docker Desktop.
