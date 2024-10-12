@@ -1,11 +1,13 @@
 version: '3'
 services:
-  # PHP 8.2 Service
+  # PHP 8.3 Service
   php:
-    image: php:8.2-fpm
+    image: php:8.3-fpm
     container_name: php
+    depends_on:
+      - mysql
     build:
-      context: ./php8.2
+      context: ./php8.3
       dockerfile: Dockerfile
     volumes:
       - ../src:/var/www/html
@@ -24,7 +26,8 @@ services:
       MYSQL_USER: mysql
       MYSQL_PASSWORD: mysql
     volumes:
-      - mysql-data:/var/lib/mysql
+      - "./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf:ro"
+      - "./mysql/dbdata:/var/lib/mysql"
     networks:
       - app-network
 
