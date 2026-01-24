@@ -10,13 +10,13 @@ services:
       context: ./php8.3
       dockerfile: Dockerfile
     volumes:
-      - ../src:/var/www/html
+      - ./src:/var/www/html
     networks:
       - app-network
 
   # MySQL Service
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: mysql
     ports:
       - "3306:3306"
@@ -39,7 +39,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ../src:/var/www/html
+      - ./src:/var/www/html
     depends_on:
       - php
     networks:
