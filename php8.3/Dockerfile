@@ -25,6 +25,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+# Install npm
+RUN apk add --no-cache nodejs npm
+
 WORKDIR /var/www/html
 
 EXPOSE 9000

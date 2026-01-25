@@ -1,2 +1,6 @@
 .idea
 mysql
+grafana-data
+loki-data
+loki-wal
+src

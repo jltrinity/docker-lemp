@@ -1,9 +1,8 @@
-version: '3'
 services:
   # PHP 8.3 Service
   php:
     image: php:8.3-fpm
-    container_name: php
+    container_name: php83jl
     depends_on:
       - mysql
     build:
@@ -13,11 +12,16 @@ services:
       - ./src:/var/www/html
     networks:
       - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  # MySQL Service
+  # MariaDB Service
   mysql:
-    image: mysql:8.0
-    container_name: mysql
+    image: mariadb:10.3
+    container_name: mariadbjl
     ports:
       - "3306:3306"
     environment:
@@ -30,11 +34,16 @@ services:
       - "./mysql/dbdata:/var/lib/mysql"
     networks:
       - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # Nginx Service
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginxjl
     ports:
       - "80:80"
     volumes:
@@ -44,6 +53,68 @@ services:
       - php
     networks:
       - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ----------------------
+  # Loki (Logs Backend)
+  # ----------------------
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yml
+    volumes:
+      - ./loki:/etc/loki
+      - ./loki-data:/loki
+      - ./loki-wal:/wal
+    networks:
+      - app-network
+
+  # ----------------------
+  # Grafana (UI)
+  # ----------------------
+  grafana:
+    image: grafana/grafana:10.3.0
+    container_name: grafana
+    depends_on:
+      - loki
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana-data:/var/lib/grafana
+    networks:
+      - app-network
+
+  # ----------------------
+  # Grafana Alloy (Collector)
+  # ----------------------
+  alloy:
+    image: grafana/alloy:v1.8.2
+    container_name: alloy
+    ports:
+      - "13133:13133"   # HTTP para UI/debug opcional de Alloy
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./alloy-config:/etc/alloy
+    depends_on:
+      - nginx
+      - php
+      - mysql
+    entrypoint: [
+      "/bin/sh", "-c",
+      "alloy run --server.http.listen-addr=0.0.0.0:13133 /etc/alloy/config.alloy"
+    ]
+    networks:
+      - app-network
 
 networks:
   app-network:
@@ -51,3 +122,6 @@ networks:
 
 volumes:
   mysql-data:
+  grafana-data:
+  loki-data:
+  loki-wal:

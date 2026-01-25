@@ -7,6 +7,15 @@ Docker container with PHP 8.3, NGINX and MySQL.
 * If you are using Windows, you will need WSL2, Ubuntu and Docker Desktop.
 * If you are using Linux, you will need the Docker engine.
 
+You must to create the following directories:
+
+   ```bash
+   mkdir grafana-data
+   mkdir loki-data   
+   mkdir loki-wal   
+   mkdir mysql   
+   ```
+
 # 🚀 Usage
 1. Download the project using git clone.
 2. On the same directory, you can start the containers with the following commands:
@@ -141,6 +150,12 @@ To manage your Docker environment, you may need to remove images or containers. 
   ```bash
   docker image prune
   ```
+
+- To remove all containers:
+  ```bash
+  docker rm -v -f $(docker ps -qa)
+  ```
+
 
 
 # 📝 Changelog
