@@ -20,7 +20,7 @@ services:
 
   # MariaDB Service
   mysql:
-    image: mariadb:10.3
+    image: mariadb:12.1.2
     container_name: mariadbjl
     ports:
       - "3306:3306"

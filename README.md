@@ -21,11 +21,11 @@ You must to create the following directories:
 2. On the same directory, you can start the containers with the following commands:
    - To start the containers without rebuilding the images:
      ```bash
-     docker-compose up
+     docker compose up
      ```
    - To start the containers and rebuild the images:
      ```bash
-     docker-compose up --build
+     docker compose up --build
      ```
 3. Create a folder named src outside docker-lemp folder.
 4. Create an index.php with phpinfo inside on src folder.
