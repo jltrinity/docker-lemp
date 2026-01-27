@@ -4,3 +4,4 @@ grafana-data
 loki-data
 loki-wal
 src
+nginx/conf.d/dev.conf

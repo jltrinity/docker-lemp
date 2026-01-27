@@ -17,6 +17,8 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    restart: unless-stopped
+
 
   # MariaDB Service
   mysql:
@@ -39,6 +41,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    restart: unless-stopped
 
   # Nginx Service
   nginx:
@@ -49,6 +52,8 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./src:/var/www/html
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - php
     networks:
@@ -58,6 +63,14 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    restart: unless-stopped
 
   # ----------------------
   # Loki (Logs Backend)
@@ -74,6 +87,7 @@ services:
       - ./loki-wal:/wal
     networks:
       - app-network
+    restart: unless-stopped
 
   # ----------------------
   # Grafana (UI)
@@ -92,6 +106,7 @@ services:
       - ./grafana-data:/var/lib/grafana
     networks:
       - app-network
+    restart: unless-stopped
 
   # ----------------------
   # Grafana Alloy (Collector)
@@ -115,6 +130,7 @@ services:
     ]
     networks:
       - app-network
+    restart: unless-stopped
 
 networks:
   app-network:
