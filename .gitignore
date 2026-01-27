@@ -5,3 +5,4 @@ loki-data
 loki-wal
 src
 nginx/conf.d/dev.conf
+nginx/conf.d/prod.conf
