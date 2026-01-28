@@ -6,3 +6,4 @@ loki-wal
 src
 nginx/conf.d/dev.conf
 nginx/conf.d/prod.conf
+nginx/conf.d/install_ssl.conf

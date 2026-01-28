@@ -1,7 +1,7 @@
 # docker-lemp
 
 # 📖 Description
-Docker container with PHP 8.3, NGINX and MySQL.
+Docker container with PHP 8.3, NGINX and Mariadb.
 
 # ✅ Prerequisites
 * If you are using Windows, you will need WSL2, Ubuntu and Docker Desktop.
@@ -31,9 +31,9 @@ You must to create the following directories:
 4. Create an index.php with phpinfo inside on src folder.
 5. Go to localhost/ and you will see the php information.
 
-# 🛠️ MySQL
-* You can access to MySQL from the host using: ``mysql -h localhost -uroot -proot``
-* Inside containers, you can access to MySQL using the host ``mysql``
+# 🛠️ Mariadb
+* You can access to Mariadb from the host using: ``mysql -h localhost -uroot -proot``
+* Inside containers, you can access to Mariadb using the host ``mysql``
 
 # 🌐 NGINX
 * You can add custom server configuration adding all ``*.conf`` files you want.
@@ -153,14 +153,32 @@ To manage your Docker environment, you may need to remove images or containers. 
 
 - To remove all containers:
   ```bash
-  docker rm -v -f $(docker ps -qa)
+  docker rm -v -f $(docker ps -q)
+  ```
+
+- Stop all running containers at once
+  ```bash
+  docker stop $(docker ps -q)
   ```
 
 
 
+# ♻️ Docker on VPS
+
+Make docker always running on VPS
+  ```bash
+  sudo systemctl enable docker
+  sudo systemctl start docker
+  ```
+
+Add this line to each docker container:
+  ```bash
+  restart: unless-stopped
+  ```
+
 # 📝 Changelog
 
 ## [Unreleased]
-- Initial release with PHP 8.3, NGINX, and MySQL setup.
+- Initial release with PHP 8.3, NGINX, and Mariadb setup.
 - Basic instructions for setting up and running the Docker LEMP stack.
 - Support for custom NGINX server configurations.
