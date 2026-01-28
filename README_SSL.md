@@ -15,12 +15,12 @@ Install SSL with let's encrypt on VPS
 
 4. Run the containers:
      ```bash
-     docker-compose up -d
+     docker compose up -d
      ```
 
 5. Run the following command (add all subdomains you want):
       ```bash
-      docker-compose run --rm certbot certonly \
+      docker compose run --rm certbot certonly \
       --webroot \
       --webroot-path=/var/www/certbot \
       --email your@email.com \
@@ -36,7 +36,7 @@ Install SSL with let's encrypt on VPS
 
 7. Restart nginx: 
    ```bash
-   docker-compose restart nginx
+   docker compose restart nginx
    ```
 
 ✅ Now SSL is now running
