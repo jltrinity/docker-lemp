@@ -14,6 +14,7 @@ You must to create the following directories:
    mkdir loki-data   
    mkdir loki-wal   
    mkdir mysql   
+   mkdir alloy-data
    ```
 
 # 🚀 Usage

@@ -24,8 +24,8 @@ services:
   mysql:
     image: mariadb:12.1.2
     container_name: mariadbjl
-    ports:
-      - "3306:3306"
+    #ports:
+    #  - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mysql
@@ -78,8 +78,8 @@ services:
   loki:
     image: grafana/loki:3.0.0
     container_name: loki
-    ports:
-      - "3100:3100"
+    #ports:
+    #  - "3100:3100"
     command: -config.file=/etc/loki/local-config.yml
     volumes:
       - ./loki:/etc/loki
@@ -97,8 +97,8 @@ services:
     container_name: grafana
     depends_on:
       - loki
-    ports:
-      - "3000:3000"
+    #ports:
+    #  - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
@@ -114,12 +114,13 @@ services:
   alloy:
     image: grafana/alloy:v1.8.2
     container_name: alloy
-    ports:
-      - "13133:13133"   # HTTP para UI/debug opcional de Alloy
+    #ports:
+    #  - "13133:13133"   # HTTP para UI/debug opcional de Alloy
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ./alloy-config:/etc/alloy
+      - /home/logs:/var/log/mycron:ro
     depends_on:
       - nginx
       - php

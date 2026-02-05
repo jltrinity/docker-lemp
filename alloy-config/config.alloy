@@ -31,6 +31,14 @@ loki.source.docker "default" {
   forward_to = [loki.write.local.receiver]
 }
 
+// Collect logs from local files
+loki.source.file "cron" {
+  targets    = [
+    {__path__ = "/var/log/mycron/cron.log", "color" = "pink"},
+  ]
+  forward_to = [loki.write.local.receiver]
+}
+
 loki.write "local" {
   endpoint {
     url = "http://loki:3100/loki/api/v1/push"
