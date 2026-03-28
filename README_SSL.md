@@ -49,6 +49,18 @@ Certificate will be valid for 90 days, to renew it automatically, you can add th
    0 3 * * * docker-compose run --rm certbot renew && docker-compose restart nginx
    ```
 
+In new versions, use docker compose instead docker-compose
+
+   ```bash
+   0 3 * * * docker compose run --rm certbot renew && docker compose restart nginx
+   ```
+
+Force certificate renewal with
+
+   ```bash
+   0 3 * * * docker compose run --rm certbot renew --force-renewal && docker compose restart nginx
+   ```
+
 
 
 
